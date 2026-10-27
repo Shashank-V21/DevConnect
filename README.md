@@ -32,16 +32,16 @@ _The planned stack and features will be updated as implementation progresses._
 
 ```text
 DevConnect/
-Ôö£ÔöÇÔöÇ client/                 # React frontend
-Ôö£ÔöÇÔöÇ server/                 # Planned backend
-Ôö£ÔöÇÔöÇ docs/
-Ôöé   Ôö£ÔöÇÔöÇ architecture.md
-Ôöé   Ôö£ÔöÇÔöÇ database-schema.md
-Ôöé   ÔööÔöÇÔöÇ api.md
-Ôö£ÔöÇÔöÇ .gitignore
-Ôö£ÔöÇÔöÇ CONTRIBUTING.md
-Ôö£ÔöÇÔöÇ CHANGELOG.md
-ÔööÔöÇÔöÇ README.md
+├── client/                 # React frontend (Vite)
+├── server/                 # Planned backend (not implemented yet)
+├── docs/
+│   ├── architecture.md     # Application architecture
+│   ├── database-schema.md  # Planned database schema
+│   └── api.md              # Planned API documentation
+├── .gitignore
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+└── README.md
 ```
 
 ## Getting Started
