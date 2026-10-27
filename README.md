@@ -1,4 +1,4 @@
-# DevConnect
+﻿# DevConnect
 
 **A collaborative workspace for software development teams.**
 
@@ -32,16 +32,16 @@ _The planned stack and features will be updated as implementation progresses._
 
 ```text
 DevConnect/
-├── client/                 # React frontend
-├── server/                 # Planned backend
-├── docs/
-│   ├── architecture.md
-│   ├── database-schema.md
-│   └── api.md
-├── .gitignore
-├── CONTRIBUTING.md
-├── CHANGELOG.md
-└── README.md
+Ôö£ÔöÇÔöÇ client/                 # React frontend
+Ôö£ÔöÇÔöÇ server/                 # Planned backend
+Ôö£ÔöÇÔöÇ docs/
+Ôöé   Ôö£ÔöÇÔöÇ architecture.md
+Ôöé   Ôö£ÔöÇÔöÇ database-schema.md
+Ôöé   ÔööÔöÇÔöÇ api.md
+Ôö£ÔöÇÔöÇ .gitignore
+Ôö£ÔöÇÔöÇ CONTRIBUTING.md
+Ôö£ÔöÇÔöÇ CHANGELOG.md
+ÔööÔöÇÔöÇ README.md
 ```
 
 ## Getting Started
