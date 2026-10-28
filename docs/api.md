@@ -41,3 +41,34 @@ npm.cmd test
 ```
 
 The test verifies the HTTP status code and response body.
+
+## POST /api/projects
+
+Creates a new project.
+
+**Request**
+
+`POST /api/projects`
+
+Content-Type: `application/json`
+
+```json
+{
+  "name": "Interview Preparation",
+  "description": "Track software engineering preparation"
+}
+```
+
+The `name` field is required, must be a non-empty string after trimming, and cannot exceed 100 characters. The `description` field is optional and may be a string.
+
+**Success response — `201 Created`**
+
+Returns the created project in a `project` object, including its generated ID, name, description, status, and creation timestamp.
+
+**Validation errors — `400 Bad Request`**
+
+Returns an `error` message when the project name is missing, empty, or longer than 100 characters.
+
+**Database errors**
+
+Unexpected database errors are passed to Express error handling.
