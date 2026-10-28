@@ -72,3 +72,49 @@ Returns an `error` message when the project name is missing, empty, or longer th
 **Database errors**
 
 Unexpected database errors are passed to Express error handling.
+
+### PUT /api/projects/:id
+
+Updates an existing project by its ID.
+
+**Request**
+
+`PUT /api/projects/1`
+
+Content-Type: `application/json`
+
+```json
+{
+  "name": "Updated Project",
+  "description": "Updated project description"
+}
+```
+
+**Validation**
+
+- `id` must be a positive integer.
+- `name` is required and must contain 1–100 characters after trimming whitespace.
+- `description` is optional. If omitted or not a string, it is stored as `null`.
+
+**Success Response — `200 OK`**
+
+Returns the updated project:
+
+```json
+{
+  "project": {
+    "id": 1,
+    "name": "Updated Project",
+    "description": "Updated project description",
+    "status": "active",
+    "created_at": "2026-10-28T10:00:00.000Z"
+  }
+}
+```
+
+The response values are illustrative; the actual values depend on the database.
+
+**Error Responses**
+
+- `400 Bad Request` — invalid project ID or project name.
+- `404 Not Found` — no project exists with the specified ID.

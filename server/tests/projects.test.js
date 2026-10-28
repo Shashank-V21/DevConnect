@@ -49,3 +49,44 @@ test("POST /api/projects rejects a name longer than 100 characters", async funct
     "Project name must be 100 characters or fewer.",
   );
 });
+
+test("PUT /api/projects/:id updates an existing project", async function () {
+  // Create a project first.
+  const created = await request(app).post("/api/projects").send({
+    name: "Original Project",
+    description: "Original description",
+  });
+
+  assert.equal(created.status, 201);
+
+  const projectId = created.body.project.id;
+
+  // Update the project.
+  const response = await request(app).put(`/api/projects/${projectId}`).send({
+    name: "Updated Project",
+    description: "Updated description",
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(response.body.project.id, projectId);
+  assert.equal(response.body.project.name, "Updated Project");
+  assert.equal(response.body.project.description, "Updated description");
+});
+
+test("PUT /api/projects/:id returns 400 for an invalid project ID", async function () {
+  const response = await request(app).put("/api/projects/abc").send({
+    name: "Updated Project",
+  });
+
+  assert.equal(response.status, 400);
+  assert.equal(response.body.error, "Project ID must be a positive integer.");
+});
+
+test("PUT /api/projects/:id returns 404 when the project does not exist", async function () {
+  const response = await request(app).put("/api/projects/2147483647").send({
+    name: "Updated Project",
+  });
+
+  assert.equal(response.status, 404);
+  assert.equal(response.body.error, "Project not found.");
+});
