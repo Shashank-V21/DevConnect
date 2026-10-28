@@ -131,3 +131,12 @@ test("DELETE /api/projects/:id returns 404 when the project does not exist", asy
   assert.equal(response.status, 404);
   assert.equal(response.body.error, "Project not found.");
 });
+
+test("PUT /api/projects/:id rejects zero as a project ID", async function () {
+  const response = await request(app).put("/api/projects/0").send({
+    name: "Updated Project",
+  });
+
+  assert.equal(response.status, 400);
+  assert.equal(response.body.error, "Project ID must be a positive integer.");
+});
