@@ -90,3 +90,44 @@ test("PUT /api/projects/:id returns 404 when the project does not exist", async 
   assert.equal(response.status, 404);
   assert.equal(response.body.error, "Project not found.");
 });
+
+test("DELETE /api/projects/:id deletes an existing project", async function () {
+  const created = await request(app).post("/api/projects").send({
+    name: "Project to Delete",
+    description: "This project will be deleted",
+  });
+
+  assert.equal(created.status, 201);
+
+  const projectId = created.body.project.id;
+
+  const response = await request(app).delete(`/api/projects/${projectId}`);
+
+  assert.equal(response.status, 200);
+  assert.equal(response.body.message, "Project deleted successfully.");
+  assert.equal(response.body.id, projectId);
+
+  // Verify that the project no longer exists.
+  const projects = await request(app).get("/api/projects");
+
+  assert.equal(
+    projects.body.projects.some(function (project) {
+      return project.id === projectId;
+    }),
+    false,
+  );
+});
+
+test("DELETE /api/projects/:id returns 400 for an invalid project ID", async function () {
+  const response = await request(app).delete("/api/projects/abc");
+
+  assert.equal(response.status, 400);
+  assert.equal(response.body.error, "Project ID must be a positive integer.");
+});
+
+test("DELETE /api/projects/:id returns 404 when the project does not exist", async function () {
+  const response = await request(app).delete("/api/projects/2147483647");
+
+  assert.equal(response.status, 404);
+  assert.equal(response.body.error, "Project not found.");
+});

@@ -118,3 +118,28 @@ The response values are illustrative; the actual values depend on the database.
 
 - `400 Bad Request` — invalid project ID or project name.
 - `404 Not Found` — no project exists with the specified ID.
+
+### DELETE /api/projects/:id
+
+Deletes an existing project by its ID.
+
+**Request**
+
+`DELETE /api/projects/1`
+
+**Success Response — `200 OK`**
+
+```json
+{
+  "message": "Project deleted successfully.",
+  "id": 1
+}
+```
+
+The `id` value represents the deleted project's ID.
+
+**Error Responses**
+
+- `400 Bad Request` — the project ID is not a positive integer.
+- `404 Not Found` — no project exists with the specified ID.
+- `500 Internal Server Error` — an unexpected database or server error occurs, handled by the application's error-handling middleware.
