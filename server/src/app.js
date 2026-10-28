@@ -1,4 +1,5 @@
 const express = require("express");
+const projectRoutes = require("./routes/projectRoutes");
 
 const app = express();
 
@@ -12,5 +13,8 @@ app.get("/api/health", function (req, res) {
     message: "DevConnect API is running",
   });
 });
+
+// Project endpoints.
+app.use("/api/projects", projectRoutes);
 
 module.exports = app;
