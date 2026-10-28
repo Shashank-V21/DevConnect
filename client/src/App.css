@@ -696,3 +696,55 @@ p {
     flex-wrap: wrap;
   }
 }
+
+.project-details {
+  padding: 28px 0 40px;
+}
+
+.project-details > .secondary-button {
+  margin-bottom: 20px;
+}
+
+.project-details-card {
+  max-width: 760px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgb(32 36 58 / 4%);
+}
+
+.project-details-card h2 {
+  margin: 0 0 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 26px;
+  overflow-wrap: anywhere;
+}
+
+.project-details-description {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.project-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.project-details-row span {
+  color: var(--muted);
+}
+
+.project-details-row strong {
+  text-align: right;
+  text-transform: capitalize;
+  overflow-wrap: anywhere;
+}

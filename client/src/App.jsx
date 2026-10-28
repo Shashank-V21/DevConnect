@@ -7,6 +7,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const [showForm, setShowForm] = useState(false);
   const [projectName, setProjectName] = useState("");
@@ -175,145 +176,224 @@ function App() {
         </section>
 
         <section className="projects-section" id="projects">
-          <div className="section-heading">
-            {showForm && (
-              <form className="project-form" onSubmit={createProject}>
-                <h3>Create a new project</h3>
-
-                <div className="form-field">
-                  <label htmlFor="project-name">Project name *</label>
-                  <input
-                    id="project-name"
-                    type="text"
-                    value={projectName}
-                    onChange={function (event) {
-                      setProjectName(event.target.value);
-                    }}
-                    placeholder="e.g. Team Task Manager"
-                    maxLength={100}
-                    required
-                  />
-                </div>
-
-                <div className="form-field">
-                  <label htmlFor="project-description">Description</label>
-                  <textarea
-                    id="project-description"
-                    value={projectDescription}
-                    onChange={function (event) {
-                      setProjectDescription(event.target.value);
-                    }}
-                    placeholder="What is this project about?"
-                    rows={3}
-                  />
-                </div>
-
-                {formError && (
-                  <p className="form-error" role="alert">
-                    {formError}
-                  </p>
-                )}
-
-                <button
-                  className="primary-button"
-                  type="submit"
-                  disabled={creating}
-                >
-                  {creating ? "Creating..." : "Create project"}
-                </button>
-              </form>
-            )}
-            <div>
-              <p className="eyebrow">OVERVIEW</p>
-              <h2>Your projects</h2>
-              <p>Track what's happening across your workspace.</p>
-            </div>
-
-            <div className="project-actions">
-              <span className="project-count">{projects.length} projects</span>
-
-              <button
-                className="primary-button"
-                type="button"
-                onClick={function () {
-                  setShowForm(!showForm);
-                  setFormError("");
-                  setSuccessMessage("");
-                }}
-              >
-                {showForm ? "Cancel" : "+ Create project"}
-              </button>
-            </div>
-          </div>
-          {loading && (
-            <div className="feedback-panel" role="status">
-              Loading your projects...
-            </div>
-          )}
-
-          {!loading && error && (
-            <div className="feedback-panel error-panel" role="alert">
-              {error}
+          {selectedProject ? (
+            <div className="project-details">
               <button
                 className="secondary-button"
+                type="button"
                 onClick={function () {
-                  window.location.reload();
+                  setSelectedProject(null);
                 }}
               >
-                Try again
+                ← Back to projects
               </button>
-            </div>
-          )}
 
-          {!loading && !error && projects.length === 0 && (
-            <div className="feedback-panel empty-panel">
-              <div className="empty-icon">▤</div>
-              <h3>No projects yet</h3>
-              <p>
-                Your projects will appear here once you create your first one.
-              </p>
-            </div>
-          )}
+              <div className="project-details-card">
+                <p className="eyebrow">PROJECT DETAILS</p>
 
-          {!loading && !error && projects.length > 0 && (
-            <div className="projects-grid">
-              {projects.map(function (project) {
-                return (
-                  <article className="project-card" key={project.id}>
-                    <div className="project-card-top">
-                      <span className="project-icon">
-                        {project.name.charAt(0).toUpperCase()}
-                      </span>
-                      <span
-                        className={`status-badge status-${String(project.status)
-                          .toLowerCase()
-                          .replace(/[^a-z0-9_-]/g, "-")}`}
+                <h2>{selectedProject.name}</h2>
+
+                <p className="project-details-description">
+                  {selectedProject.description || "No description added yet."}
+                </p>
+
+                <div className="project-details-row">
+                  <span>Project ID</span>
+                  <strong>#{selectedProject.id}</strong>
+                </div>
+
+                <div className="project-details-row">
+                  <span>Status</span>
+                  <strong>
+                    {String(selectedProject.status).replace(/_/g, " ")}
+                  </strong>
+                </div>
+
+                <div className="project-details-row">
+                  <span>Created on</span>
+                  <strong>
+                    {selectedProject.created_at
+                      ? new Date(
+                          selectedProject.created_at,
+                        ).toLocaleDateString()
+                      : "Date unavailable"}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="section-heading">
+                {showForm && (
+                  <form className="project-form" onSubmit={createProject}>
+                    <h3>Create a new project</h3>
+
+                    <div className="form-field">
+                      <label htmlFor="project-name">Project name *</label>
+                      <input
+                        id="project-name"
+                        type="text"
+                        value={projectName}
+                        onChange={function (event) {
+                          setProjectName(event.target.value);
+                        }}
+                        placeholder="e.g. Team Task Manager"
+                        maxLength={100}
+                        required
+                      />
+                    </div>
+
+                    <div className="form-field">
+                      <label htmlFor="project-description">Description</label>
+                      <textarea
+                        id="project-description"
+                        value={projectDescription}
+                        onChange={function (event) {
+                          setProjectDescription(event.target.value);
+                        }}
+                        placeholder="What is this project about?"
+                        rows={3}
+                      />
+                    </div>
+
+                    {formError && (
+                      <p className="form-error" role="alert">
+                        {formError}
+                      </p>
+                    )}
+
+                    <button
+                      className="primary-button"
+                      type="submit"
+                      disabled={creating}
+                    >
+                      {creating ? "Creating..." : "Create project"}
+                    </button>
+                  </form>
+                )}
+
+                <div>
+                  <p className="eyebrow">OVERVIEW</p>
+                  <h2>Your projects</h2>
+                  <p>Track what's happening across your workspace.</p>
+                </div>
+
+                <div className="project-actions">
+                  <span className="project-count">
+                    {projects.length} projects
+                  </span>
+
+                  <button
+                    className="primary-button"
+                    type="button"
+                    onClick={function () {
+                      setShowForm(!showForm);
+                      setFormError("");
+                      setSuccessMessage("");
+                    }}
+                  >
+                    {showForm ? "Cancel" : "+ Create project"}
+                  </button>
+                </div>
+              </div>
+
+              {successMessage && (
+                <div className="feedback-panel" role="status">
+                  {successMessage}
+                </div>
+              )}
+
+              {loading && (
+                <div className="feedback-panel" role="status">
+                  Loading your projects...
+                </div>
+              )}
+
+              {!loading && error && (
+                <div className="feedback-panel error-panel" role="alert">
+                  {error}
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    onClick={function () {
+                      window.location.reload();
+                    }}
+                  >
+                    Try again
+                  </button>
+                </div>
+              )}
+
+              {!loading && !error && projects.length === 0 && (
+                <div className="feedback-panel empty-panel">
+                  <div className="empty-icon">▤</div>
+                  <h3>No projects yet</h3>
+                  <p>
+                    Your projects will appear here once you create your first
+                    one.
+                  </p>
+                </div>
+              )}
+
+              {!loading && !error && projects.length > 0 && (
+                <div className="projects-grid">
+                  {projects.map(function (project) {
+                    return (
+                      <article
+                        className="project-card"
+                        key={project.id}
+                        onClick={function () {
+                          setSelectedProject(project);
+                        }}
+                        tabIndex={0}
+                        role="button"
+                        onKeyDown={function (event) {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            setSelectedProject(project);
+                          }
+                        }}
                       >
-                        {String(project.status).replace(/_/g, " ")}
-                      </span>
-                    </div>
+                        <div className="project-card-top">
+                          <span className="project-icon">
+                            {project.name.charAt(0).toUpperCase()}
+                          </span>
 
-                    <h3>{project.name}</h3>
+                          <span
+                            className={`status-badge status-${String(
+                              project.status,
+                            )
+                              .toLowerCase()
+                              .replace(/[^a-z0-9_-]/g, "-")}`}
+                          >
+                            {String(project.status).replace(/_/g, " ")}
+                          </span>
+                        </div>
 
-                    <p className="project-description">
-                      {project.description || "No description added yet."}
-                    </p>
+                        <h3>{project.name}</h3>
 
-                    <div className="project-card-footer">
-                      <span>Project #{project.id}</span>
-                      <span>
-                        {project.created_at
-                          ? new Date(project.created_at).toLocaleDateString()
-                          : "Date unavailable"}
-                      </span>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+                        <p className="project-description">
+                          {project.description || "No description added yet."}
+                        </p>
+
+                        <div className="project-card-footer">
+                          <span>Project #{project.id}</span>
+                          <span>
+                            {project.created_at
+                              ? new Date(
+                                  project.created_at,
+                                ).toLocaleDateString()
+                              : "Date unavailable"}
+                          </span>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </>
           )}
         </section>
-
         <footer className="page-footer">
           DevConnect <span>·</span> Built to help teams do great work.
         </footer>
