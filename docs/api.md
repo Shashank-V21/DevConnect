@@ -42,6 +42,44 @@ npm.cmd test
 
 The test verifies the HTTP status code and response body.
 
+## GET /api/projects
+
+Retrieves all projects, ordered by creation date from newest to oldest.
+
+- **Method:** `GET`
+- **Endpoint:** `/api/projects`
+- **Authentication:** Not required
+- **Success status:** `200 OK`
+
+### Example Request
+
+```http
+GET /api/projects
+```
+
+### Example Response
+
+```json
+{
+  "count": 1,
+  "projects": [
+    {
+      "id": 1,
+      "name": "Interview Preparation",
+      "description": "Track software engineering preparation",
+      "status": "active",
+      "created_at": "2026-10-28T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+The response values are illustrative. The `count` field contains the number of returned projects, and `projects` contains the project records.
+
+### Error Handling
+
+Unexpected database errors are passed to Express error handling.
+
 ## POST /api/projects
 
 Creates a new project.

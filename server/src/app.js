@@ -1,8 +1,14 @@
 const express = require("express");
+const cors = require("cors");
 const projectRoutes = require("./routes/projectRoutes");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 // Parse incoming JSON request bodies.
 app.use(express.json());
 
