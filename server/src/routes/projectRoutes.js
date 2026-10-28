@@ -108,4 +108,37 @@ router.put("/:id", async function (req, res, next) {
   }
 });
 
+// DELETE /api/projects/:id - Delete an existing project.
+router.delete("/:id", async function (req, res, next) {
+  try {
+    const id = req.params.id;
+
+    if (!/^[1-9]\d*$/.test(id)) {
+      return res.status(400).json({
+        error: "Project ID must be a positive integer.",
+      });
+    }
+
+    const result = await pool.query(
+      `DELETE FROM projects
+       WHERE id = $1
+       RETURNING id`,
+      [Number(id)],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Project not found.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Project deleted successfully.",
+      id: result.rows[0].id,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
